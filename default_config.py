@@ -10,7 +10,9 @@ YOUTUBE_API_VERSION = 'v3'
 YOUTUBE_VIDEO_URL = 'www.youtube.com/watch?v=%s'
 
 # Third party service that we will post our requests to.
-YOUTUBEINMP3 = 'http://youtubeinmp3.com/fetch/?video=%s'
+CUSTOM_HEADER = {'Accept-Location': '*'}
+YOUTUBE_TO_MP3_VIDEO_HASH = 'http://www.youtube-mp3.org/a/itemInfo/?video_id=%s&ac=www&t=grp&r=%s'
+YOUTUBE_TO_MP3_VIDEO_DOWNLOAD = 'http://www.youtube-mp3.org/get?ab=128&video_id=%s&h=%s&r=%s.%s'
 
 # Number of download workers.
 DOWNLOAD_WORKER_NUMBER = 3
