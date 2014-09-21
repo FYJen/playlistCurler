@@ -3,6 +3,7 @@ import json
 import requests
 import threading
 import time
+import os
 
 import default_config as config
 
@@ -11,11 +12,12 @@ WORKER_MOD_NUMBER = 3
 class downloadWorker(threading.Thread):
     """downloadWorker class which will contruct a queue
     """
-    def __init__(self, queue, location, dryrun):
+    def __init__(self, queue, playlistTitle, location, dryrun):
         super(downloadWorker, self).__init__()
         self.queue = queue
+        self.playlistTitle = playlistTitle.strip().replace(' ', '_')
         self.dryrun = dryrun
-        self.location = location
+        self.location = os.path.join(location, self.playlistTitle)
 
     def __getVideoHash(self, curTime, videoId):
         """Retrieve a video hash for download URL. Required by youtube-to-mp3's api.
@@ -64,6 +66,15 @@ class downloadWorker(threading.Thread):
 
         return c << 16 | b
 
+    def __createPlayListTitleDir(self):
+        """Create final dest directory if it doesn't exist.
+        """
+        try:
+            os.makedirs(self.location)
+        except OSError as e:
+            print u'Directory exists: %s. Skip creating the directory.' % \
+                  self.location
+
     def _constructURL(self, videoId):
         """Construct a download URL.
 
@@ -85,17 +96,15 @@ class downloadWorker(threading.Thread):
                                                        suffix)
 
     def _download(self, item):
-        """Use the download URL to download musics.
+        """Download musics.
 
         Args:
             item - Item from the Queue.
         """
         try:
             url = self._constructURL(item['videoId'])
-            if self.location[-1] != '/':
-                dest = self.location + '/' + item['title'] + '.mp3'
-            else:
-                dest = self.location + item['title'] + '.mp3'
+            dest =  os.path.join(self.location, '%s.mp3' % item['title'])
+
             s = requests.Session()
             s.headers.update(config.CUSTOM_HEADER)
             r = s.get(url, stream=True)
@@ -116,6 +125,7 @@ class downloadWorker(threading.Thread):
                 print self._constructURL(item['videoId'])
                 self.queue.task_done()
         else:
+            self.__createPlayListTitleDir()
             while True:
                 item = self.queue.get()
                 self._download(item)
