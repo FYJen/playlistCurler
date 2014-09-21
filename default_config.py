@@ -11,8 +11,20 @@ YOUTUBE_VIDEO_URL = 'www.youtube.com/watch?v=%s'
 
 # Third party service that we will post our requests to.
 CUSTOM_HEADER = {'Accept-Location': '*'}
-YOUTUBE_TO_MP3_VIDEO_HASH = 'http://www.youtube-mp3.org/a/itemInfo/?video_id=%s&ac=www&t=grp&r=%s'
-YOUTUBE_TO_MP3_VIDEO_DOWNLOAD = 'http://www.youtube-mp3.org/get?ab=128&video_id=%s&h=%s&r=%s.%s'
+YOUTUBE_TO_MP3_VIDEO_HASH = \
+    'http://www.youtube-mp3.org/a/itemInfo/?video_id=%s&ac=www&t=grp&r=%s'
+YOUTUBE_TO_MP3_VIDEO_DOWNLOAD = \
+    'http://www.youtube-mp3.org/get?ab=128&video_id=%s&h=%s&r=%s.%s'
 
 # Number of download workers.
 DOWNLOAD_WORKER_NUMBER = 3
+
+
+##################
+#  USER SETTINGS #
+##################
+
+# The destination directory to download the files to. This is the parent directory;
+# the app will create subdirectory to store songs downloaded from different
+# playlists.
+DOWNLOAD_LOCATION = '~/Downloads/playlistCurler'
