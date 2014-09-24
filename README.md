@@ -13,22 +13,22 @@ Simply run, `python playlistCurler.py --url 'YOUTUBE_URL'`
 
 Example:
 	
-	`python playlistCurler.py --url 'https://www.youtube.com/watch?v=lEKOWKcUxdU&list=PL9tY0BWXOZFtkcURIg7hkpWbpCBHCD5-G'`
+	python playlistCurler.py --url 'https://www.youtube.com/watch?v=lEKOWKcUxdU&list=PL9tY0BWXOZFtkcURIg7hkpWbpCBHCD5-G'
 
 `Note`: The YouTube URL needs to have `list='PLAYLIST_ID'` in the query string.
 
 ##How It Works
-Playlist Curler uses [YouTube Data API V3](https://developers.google.com/youtube/v3/) to retrieve every individual song's information from a given public YouTube playlist. The retrieved song information contains `Id`, `title`, `thumbnail` and `channelId`. 
+Playlist Curler uses [YouTube Data API V3](https://developers.google.com/youtube/v3/) to retrieve videos' information from a given public YouTube playlist. The retrieved videos' information contains `videoId`, `title`, `thumbnail` and `channelId`. 
 
-Once we get the song information, the Playlist Curler constructs two different URLs for individual song: one is used to retrieve unique hash for the song from [Youtube-mp3](http://www.youtube-mp3.org/), and the other is used to download the song.
+Once we get all videos' information, the Playlist Curler constructs two different URLs for individual video: one is used to retrieve unique hash for the video from [Youtube-mp3](http://www.youtube-mp3.org/), and the other is used to download the video.
 
 - Hash retrieving URL format:
 	* 'http://www.youtube-mp3.org/a/itemInfo/?video_id=%s&ac=www&t=grp&r=%s'
-	* First `%s`: video/song `Id`
+	* First `%s`: video `Id`
 	* Second `%s`: timestamp in millisecond
 - Download URL format:
 	* 'http://www.youtube-mp3.org/get?ab=128&video_id=%s&h=%s&r=%s.%s'
-	* First `%s`: video/song `Id`
+	* First `%s`: video `Id`
 	* Second `%s`: hash retrieved from the first URL
 	* Third `%s`: timestamp in millisecond
 	* Fourth `%s`: some suffix generated with algorithm
